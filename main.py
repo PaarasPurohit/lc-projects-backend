@@ -1,10 +1,11 @@
 # imports from flask
-from flask import redirect, render_template, request, url_for  # import render_template from "public" flask libraries
+from flask import redirect, render_template, request, url_for, jsonify  # import render_template from "public" flask libraries
 from flask_login import current_user, login_user, logout_user
 from flask.cli import AppGroup
 
 # import "objects" from "this" project
 from __init__ import app, db, login_manager  # Key Flask objects 
+from api.space import get_celestial_object_info
 
 # API endpoints
 from api.covid import covid_api 
@@ -76,6 +77,15 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+@app.route('/api/space', methods=['GET'])
+def space_info():
+    name = request.args.get('name')
+    if name:
+        response = get_celestial_object_info(name)
+        return jsonify(response)
+    else:
+        return jsonify({"error": "Missing 'name' parameter"}), 400
 
 # Create an AppGroup for custom commands
 custom_cli = AppGroup('custom', help='Custom commands')

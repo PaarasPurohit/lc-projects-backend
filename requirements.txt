@@ -13,3 +13,7 @@ numpy
 matplotlib
 seaborn
 scikit-learn
+openai
+langchain
+streamlit
+google-generativeai
