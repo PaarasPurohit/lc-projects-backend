@@ -5,6 +5,7 @@ from flask.cli import AppGroup
 
 # import "objects" from "this" project
 from __init__ import app, db, login_manager  # Key Flask objects 
+from api.customers import get_predicted_review
 from api.space import get_celestial_object_info
 
 # API endpoints
@@ -83,6 +84,15 @@ def space_info():
     name = request.args.get('name')
     if name:
         response = get_celestial_object_info(name)
+        return jsonify(response)
+    else:
+        return jsonify({"error": "Missing 'name' parameter"}), 400
+    
+@app.route('/api/customer', methods=['GET'])
+def customer_info():
+    desc = request.args.get('description')
+    if desc:
+        response = get_predicted_review(desc)
         return jsonify(response)
     else:
         return jsonify({"error": "Missing 'name' parameter"}), 400

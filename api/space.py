@@ -1,5 +1,3 @@
-import os
-import json
 from constants import gemini_api_key
 
 import google.generativeai as genai
